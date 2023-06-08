@@ -1,0 +1,158 @@
+create table categoria(
+	id Serial primary key,
+	nome varchar(255) not null Unique
+)
+
+insert into categoria (nome) values ('Front-End') 
+
+insert into categoria (nome) values ('Dados'); 
+
+insert into categoria (nome) values ('Back-End') 
+
+ALTER TABLE curso
+add COLUMN id_categoria int;
+
+
+alter table curso
+add Foreign key (id_categoria) references categoria(id);
+
+update curso set id_categoria = 1 where id = 1
+
+update curso set id_categoria = 2 where id in (2,3)
+
+update curso set id_categoria = 3 where id = 4
+
+INSERT INTO categoria (nome) VALUES ('Programação'), ('Banco de dados'), ('Data Science');
+
+
+INSERT INTO curso (nome) VALUES
+    ('HTML'),
+    ('CSS'),
+    ('JS'),
+    ('PHP'),
+    ('Java'),
+    ('C++'),
+    ('PostgreSQL'),
+    ('MySQL'),
+    ('Oracle'),
+    ('SQL Server'),
+    ('SQLite'),
+    ('Pandas'),
+    ('Machine Learning'),
+    ('Power BI');
+
+
+
+
+update curso set id_categoria = 7 where id in (18,17,16)
+
+update curso set id_categoria = 6 where id in (11,12,13,14,15)
+
+update curso set id_categoria = 5 where id in (10,9,8)
+
+update curso set id_categoria = 1 where id in (5,6,7)
+
+
+insert into aluno_curso(aluno_id,curso_id) values (10,2)
+insert into aluno_curso(aluno_id,curso_id) values (10,2)
+insert into aluno_curso(aluno_id,curso_id) values (7,2),(7,3),(7,1)
+
+
+select aluno.nome as "NOME DO ALUNO",count(aluno_curso.curso_id) as "NUMERO DE CURSOS" from aluno
+join aluno_curso on aluno_curso.aluno_id = aluno.id
+group by 1
+order by 2 desc
+
+
+select aluno.nome as "NOME DO ALUNO",count(aluno_curso.curso_id) as "NUMERO DE CURSOS" from aluno
+join aluno_curso on aluno_curso.aluno_id = aluno.id
+group by 1
+order by 2 desc
+LIMIT 1
+
+
+select curso.nome as "NOME DO CURSO", 
+	count(aluno_curso.curso_id) as "QUANTIDADE DE CURSOS" 
+from curso
+	join aluno_curso on aluno_curso.curso_id = curso.id
+	group by 1
+	order by 2 Desc
+
+
+select curso.nome as "NOME DO CURSO", 
+	count(aluno_curso.curso_id) as "QUANTIDADE DE CURSOS" 
+from curso
+	left join aluno_curso on aluno_curso.curso_id = curso.id
+	group by 1
+	order by 2 Desc
+
+
+select curso.nome 
+from curso
+where id_categoria in (
+	select id from categoria where nome like ('% %')
+)
+
+select curso.nome 
+from curso
+where id_categoria in (
+	select id from categoria where nome not like ('% %')
+)
+
+
+
+select categoria.nome as "NOME_CURSO", 
+count(curso.id) as QUANTIDADE_DE_CURSO 
+from categoria
+join curso on curso.id_categoria = categoria.id
+group by 1
+having count(curso.id) >= 3
+order by 2 desc
+
+
+SELECT subquery.NOME_CURSO, subquery.QUANTIDADE_DE_CURSO
+FROM (
+    SELECT categoria.nome as NOME_CURSO, 
+	count(curso.id) as QUANTIDADE_DE_CURSO
+    FROM categoria
+    JOIN curso ON curso.id_categoria = categoria.id
+    GROUP BY categoria.nome
+	order by 2 desc
+) AS subquery
+WHERE subquery.QUANTIDADE_DE_CURSO >= 3;
+
+
+
+
+select * from curso
+
+select * from categoria
+
+select * from aluno_curso
+
+select * from aluno
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
